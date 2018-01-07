@@ -3,7 +3,8 @@ import {
     View,
     Text,
     Image,
-    StyleSheet
+    StyleSheet,
+    TouchableOpacity
 } from "react-native";
 import Colors from "../../../static/Colors";
 import Fonts from "../../../static/Fonts";
@@ -11,9 +12,9 @@ import DateTime from "../../../static/DateTime";
 
 export default class EachClient extends React.Component {
     render() {
-        const { client } = this.props;
+        const { client, navigation } = this.props;
         return (
-            <View style={styles.container}>
+            <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("Client", { client })}>
                 <View style={{ flex: 1 }}>
                     <View style={{ flexDirection: "row" }}>
                         {this.renderUserAvatar(client)}
@@ -23,7 +24,7 @@ export default class EachClient extends React.Component {
                 <View style={styles.dateContainer}>
                     {this.renderUserBirthDate(client)}
                 </View>
-            </View>
+            </TouchableOpacity>
         );
     }
 

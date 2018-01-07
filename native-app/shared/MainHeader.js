@@ -61,8 +61,6 @@ const styles = StyleSheet.create({
     },
     headerTitle: {
         ...Fonts.header,
-        color: Colors.white,
-        alignSelf: "center",
         paddingTop: 5
     },
     backIcon: {
