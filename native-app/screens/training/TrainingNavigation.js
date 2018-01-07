@@ -5,7 +5,7 @@ import TrainingScreen from "./training/TrainingScreen";
 
 export default StackNavigator(
     {
-        Training: {
+        MainTraining: {
             screen: TrainingScreen,
         }
     },

@@ -1,15 +1,33 @@
 import React from "react";
 import {
-    Text,
     View,
     StatusBar,
     Platform,
     StyleSheet,
 } from "react-native";
+import {
+    AppLoading,
+    Font
+} from "expo";
 import RootNavigation from "./screens/RootNavigation";
 
 export default class App extends React.Component {
+    state = {
+        isReady: false
+    }
+
+    componentWillMount() {
+        (async() => { await Font.loadAsync({
+            "Slabo 27px": require("./assets/fonts/Slabo_27px/Slabo27px-Regular.ttf")
+        });
+            this.setState({ isReady: true});
+        })();
+    }
+
     render() {
+        if (!this.state.isReady) {
+            return <AppLoading />;
+        }
         return (
             <View style={styles.container}>
                 {Platform.OS === "ios" && <StatusBar barStyle="default"  />}
@@ -24,7 +42,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#FFF",
-        paddingTop: 30
     },
     statusBarUnderlay: {
         height: 24,

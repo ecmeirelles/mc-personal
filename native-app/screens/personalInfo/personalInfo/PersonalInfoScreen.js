@@ -1,17 +1,20 @@
 import React from "react";
 import {
     View,
-    Text
+    Text, StyleSheet
 } from "react-native";
+import MainHeader from "../../../shared/MainHeader";
+import Colors from "../../../static/Colors";
 
 export default class PersonalInfoScreen extends React.Component {
-    static navigationOptions = {
+    static navigationOptions = MainHeader({
         title: "Informações",
-    };
+        backButton: false
+    });
 
     render() {
         return (
-            <View>
+            <View style={styles.container}>
                 <Text>
                     PersonalInfoScreen
                 </Text>
@@ -19,3 +22,10 @@ export default class PersonalInfoScreen extends React.Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: Colors.primaryBlue
+    }
+});

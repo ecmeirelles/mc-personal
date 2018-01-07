@@ -1,17 +1,21 @@
 import React from "react";
 import {
     View,
-    Text
+    Text,
+    StyleSheet
 } from "react-native";
+import MainHeader from "../../../shared/MainHeader";
+import Colors from "../../../static/Colors";
 
 export default class TrainingScreen extends React.Component {
-    static navigationOptions = {
-        title: 'Treinos',
-    };
+    static navigationOptions = MainHeader({
+        title: "Treinos",
+        backButton: false
+    });
 
     render() {
         return (
-            <View>
+            <View style={styles.container}>
                 <Text>
                     TrainingScreen
                 </Text>
@@ -19,3 +23,10 @@ export default class TrainingScreen extends React.Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: Colors.primaryBlue
+    }
+});

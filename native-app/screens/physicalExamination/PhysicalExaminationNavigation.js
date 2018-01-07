@@ -5,7 +5,7 @@ import PhysicalExaminationScreen from "./physicalExamination/PhysicalExamination
 
 export default StackNavigator(
     {
-        Training: {
+        PhysicalExamination: {
             screen: PhysicalExaminationScreen,
         }
     },

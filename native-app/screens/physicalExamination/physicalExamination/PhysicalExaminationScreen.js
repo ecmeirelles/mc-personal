@@ -1,17 +1,20 @@
 import React from "react";
 import {
     View,
-    Text
+    Text, StyleSheet
 } from "react-native";
+import MainHeader from "../../../shared/MainHeader";
+import Colors from "../../../static/Colors";
 
 export default class PhysicalExaminationScreen extends React.Component {
-    static navigationOptions = {
-        title: 'Avaliação Física',
-    };
+    static navigationOptions = MainHeader({
+        title: "Avaliação Física",
+        backButton: false
+    });
 
     render() {
         return (
-            <View>
+            <View style={styles.container}>
                 <Text>
                     PhysicalExaminationScreen
                 </Text>
@@ -19,3 +22,10 @@ export default class PhysicalExaminationScreen extends React.Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: Colors.primaryBlue
+    }
+});
