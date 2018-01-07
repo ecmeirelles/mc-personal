@@ -18,7 +18,9 @@ export default class App extends React.Component {
 
     componentWillMount() {
         (async() => { await Font.loadAsync({
-            "Slabo 27px": require("./assets/fonts/Slabo_27px/Slabo27px-Regular.ttf")
+            "Slabo 27px": require("./assets/fonts/Slabo_27px/Slabo27px-Regular.ttf"),
+            "Alegrya Sans": require("./assets/fonts/Alegreya_Sans/AlegreyaSans-Regular.ttf"),
+            "Alegrya Sans Bold": require("./assets/fonts/Alegreya_Sans/AlegreyaSans-Bold.ttf")
         });
             this.setState({ isReady: true});
         })();
