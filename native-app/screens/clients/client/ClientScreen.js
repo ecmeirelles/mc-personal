@@ -2,17 +2,16 @@ import React from "react";
 import {
     View,
     Text,
-    ScrollView,
-    StyleSheet,
-    Dimensions,
-    TouchableOpacity
+    Image,
+    StyleSheet
 } from "react-native";
-import { Icon } from "react-native-elements";
 import MainHeader from "../../../shared/MainHeader";
-import Colors from "../../../static/Colors";
-import Fonts from "../../../static/Fonts";
-import CustomTextInput from "../../../shared/CustomTextInput";
 import DateTime from "../../../static/DateTime";
+import bmiCalculate from "../bmiCalculate";
+import riskValues from "../riskValues";
+import {Icon} from "react-native-elements";
+import Fonts from "../../../static/Fonts";
+import Colors from "../../../static/Colors";
 
 export default class ClientScreen extends React.Component {
     static navigationOptions = MainHeader({
@@ -20,130 +19,132 @@ export default class ClientScreen extends React.Component {
         backButton: true
     });
 
-    onChangeUser = (field, value) => {
-        console.log(field, value);
-    }
-
     render() {
-        const { client } = this.props.navigation.state.params;
+        const {client} = this.props.navigation.state.params;
         return (
-            <View style={styles.container}>
-                {this.renderSubheader()}
-                {this.renderForm(client)}
+            <View style={{ flex: 1 }}>
+                <View style={styles.avatarContainer}>
+                    {this.renderAvatar(client)}
+                </View>
+                {this.renderUserDetails(client)}
+                {this.renderUserMetrics(client)}
+                {this.renderUserBmi(client)}
             </View>
         );
     }
 
-    renderSubheader() {
+    renderAvatar(client) {
         return (
-            <View style={styles.subheaderContainer}>
-                <View style={styles.icon}>
-                    <Icon
-                        name="new-message"
-                        type="entypo"
-                        size={25}
-                        color={Colors.white}
-                    />
-                </View>
-                <Text style={styles.subheader}>
-                    EDITAR ALUNO
+            <Image
+                style={styles.avatar}
+                source={{ uri: client.picture }}
+                resizeMode="cover"
+            />
+        )
+    }
+
+    renderUserDetails(client) {
+        return (
+            <View style={styles.userDetails}>
+                <Text style={{ ...Fonts.maxTitle, marginTop: 20 }}>
+                    {client.name}
                 </Text>
+                <Text style={{ ...Fonts.maxSubtitle }}>
+                    {client.email}
+                </Text>
+                <View style={{ flexDirection: "row" }}>
+                    <Icon
+                        name="cake-variant"
+                        type="material-community"
+                        size={13}
+                        color={Colors.black}
+                    />
+                    <Text style={{ ...Fonts.subtitle, marginLeft: 5 }}>
+                        {DateTime("date", client.birthDate)}
+                    </Text>
+                </View>
             </View>
         )
     }
 
-    renderForm(client) {
+    renderUserMetrics(client) {
         return (
-            <ScrollView>
-                <CustomTextInput
-                    label="Nome"
-                    field="name"
-                    value={client.name}
-                    placeholder="Digite o nome do usuário"
-                    onChangeInput={this.onChangeUser}
-                />
-                <CustomTextInput
-                    label="Email"
-                    field="email"
-                    value={client.email}
-                    placeholder="Digite o email do usuário"
-                    onChangeInput={this.onChangeUser}
-                />
-                <CustomTextInput
-                    label="Data de Nascimento"
-                    field="birthDate"
-                    value={DateTime("date", client.birthDate)}
-                    placeholder="Digite a data de nascimento do usuário"
-                    onChangeInput={this.onChangeUser}
-                />
-                <View style={{ flexDirection: "row" }}>
-                    <CustomTextInput
-                        style={{ flex: 1, marginRight: 10 }}
-                        label="Peso (kg)"
-                        field="weight"
-                        value={client.weight.toString()}
-                        placeholder="Digite o peso do usuário"
-                        onChangeInput={this.onChangeUser}
+            <View style={styles.userMetrics}>
+                <View style={{ flex: 1 }}>
+                    <Icon
+                        name="human-handsup"
+                        type="material-community"
+                        size={50}
+                        color={Colors.black}
                     />
-                    <CustomTextInput
-                        style={{ flex: 1 }}
-                        label="Altura (m)"
-                        field="height"
-                        value={client.height.toString()}
-                        placeholder="Digite o peso do usuário"
-                        onChangeInput={this.onChangeUser}
-                    />
+                    <Text style={{ ...Fonts.maxSubtitle, textAlign: "center" }}>
+                        {client.height} m
+                    </Text>
                 </View>
-                {this.renderButton()}
-            </ScrollView>
+                <View style={{ flex: 1 }}>
+                    <Icon
+                        name="weight"
+                        type="material-community"
+                        size={50}
+                        color={Colors.black}
+                    />
+                    <Text style={{ ...Fonts.maxSubtitle, textAlign: "center" }}>
+                        {client.weight} kg
+                    </Text>
+                </View>
+            </View>
         )
     }
 
-    renderButton() {
+    renderUserBmi(client) {
+        const bmiCalculated = bmiCalculate({
+            weight: client.weight,
+            height: client.height,
+            birthDate: client.birthDate
+        });
         return (
-            <TouchableOpacity
-                style={{ marginVertical: 20 }}
-                onPress={() => console.log("Editar Usuário")}>
-                <View style={styles.button}>
-                    <Text style={styles.buttonText}>
-                        Editar  Usuário
-                    </Text>
-                </View>
-            </TouchableOpacity>
+            <View style={[styles.userBmi, { backgroundColor: riskValues[bmiCalculated.risk].color }]}>
+                <Text style={{ ...Fonts.title }}>
+                    IMC: {bmiCalculated.value}
+                </Text>
+                <Text style={{ ...Fonts.maxSubtitle }}>
+                    {bmiCalculated.classification}
+                </Text>
+                <Text style={{ ...Fonts.maxSubtitle }}>
+                    Risco {riskValues[bmiCalculated.risk].name}
+                </Text>
+            </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-        backgroundColor: Colors.primaryGreen
+    avatarContainer: {
+        marginTop: 20,
+        alignItems: "center"
     },
-    subheaderContainer: {
-        padding: 10,
-        paddingLeft: 0,
+    avatar: {
+        width: 90,
+        height: 90,
+        borderRadius: 45
+    },
+    userDetails: {
+        alignItems: "center",
+        paddingBottom: 20,
+        marginHorizontal: 30,
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.black50
+    },
+    userMetrics: {
+        flex: 1,
         flexDirection: "row",
-        backgroundColor: Colors.primaryBlue
+        alignItems: "center"
     },
-    icon: {
-        flex: 0,
-        width: 50
-    },
-    subheader: {
-        flex: 1,
-        ...Fonts.subheader,
-        alignSelf: "center"
-    },
-    button: {
-        padding: 10,
+    userBmi: {
+        padding: 5,
         borderRadius: 5,
-        alignItems: "center",
-        width: Dimensions.get("screen").width - 20,
-        backgroundColor: Colors.primaryOrange,
-    },
-    buttonText: {
-        ...Fonts.title,
-        color: Colors.white
+        marginBottom: 20,
+        marginHorizontal: 20,
+        alignItems: "center"
     }
 });

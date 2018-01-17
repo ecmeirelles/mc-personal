@@ -3,7 +3,6 @@ import {
     View,
     ScrollView,
     StyleSheet,
-    TouchableOpacity
 } from "react-native";
 import MainHeader from "../../../shared/MainHeader";
 import Colors from "../../../static/Colors";
@@ -20,7 +19,7 @@ export default class ClientsScreen extends React.Component {
             {
                 id: "123e4567-e89b-12d3-a456-426655440000",
                 name: "Elaine Meirelles",
-                email: "ecmperonico@gmail.com",
+                email: "elainemeirelles@email.com.br",
                 height: 1.56,
                 weight: 57,
                 picture: "http://lorempixel.com/400/200/sports/1",
@@ -29,8 +28,8 @@ export default class ClientsScreen extends React.Component {
             },
             {
                 id: "123e4567-e89b-12d3-a456-426655440123",
-                name: "Outra Pessoa",
-                email: "outrapessoa@email.com.br",
+                name: "Ana Maria Cabral",
+                email: "anamariacabral@email.com.br",
                 height: 1.70,
                 weight: 80,
                 picture: "http://lorempixel.com/400/200/sports/2",
@@ -61,10 +60,14 @@ export default class ClientsScreen extends React.Component {
     renderListOfClients() {
         const { clients } = this.state;
         const { navigation } = this.props;
+        const sortedClients = clients.sort(function (a, b) {
+            return a.name.localeCompare(b.name);
+        });
+
         return (
             <ScrollView>
                 <View>
-                    { clients.map(client => (
+                    { sortedClients.map(client => (
                         <EachClient
                             key={client.id}
                             navigation={navigation}

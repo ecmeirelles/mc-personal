@@ -31,7 +31,7 @@ export const renderBackButton = (navigation) => (
             iconStyle={styles.backIcon}
             name="arrow-left"
             type="entypo"
-            size={15}
+            size={17}
             color={Colors.white}
         />
     </TouchableOpacity>

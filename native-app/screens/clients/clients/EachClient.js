@@ -6,6 +6,7 @@ import {
     StyleSheet,
     TouchableOpacity
 } from "react-native";
+import {Icon} from "react-native-elements";
 import Colors from "../../../static/Colors";
 import Fonts from "../../../static/Fonts";
 import DateTime from "../../../static/DateTime";
@@ -21,8 +22,8 @@ export default class EachClient extends React.Component {
                         {this.renderUserDetails(client)}
                     </View>
                 </View>
-                <View style={styles.dateContainer}>
-                    {this.renderUserBirthDate(client)}
+                <View style={styles.personDetailsContainer}>
+                    {this.renderPersonDetails(client)}
                 </View>
             </TouchableOpacity>
         );
@@ -46,6 +47,17 @@ export default class EachClient extends React.Component {
                 <Text style={{ ...Fonts.title }}>
                     {client.name}
                 </Text>
+                <View style={{ flexDirection: "row" }}>
+                    <Icon
+                        name="cake-variant"
+                        type="material-community"
+                        size={13}
+                        color={Colors.black}
+                    />
+                    <Text style={{ ...Fonts.subtitle, marginLeft: 5 }}>
+                        {DateTime("date", client.birthDate)}
+                    </Text>
+                </View>
                 <Text style={{ ...Fonts.subtitle }}>
                     {client.email}
                 </Text>
@@ -53,18 +65,41 @@ export default class EachClient extends React.Component {
         )
     }
 
-    renderUserBirthDate(client) {
+    renderPersonDetails(client) {
         return (
-            <Text style={{ ...Fonts.subtitle }}>
-                {DateTime("date", client.birthDate)}
-            </Text>
+            <View>
+                <View style={{ flexDirection: "row", marginTop: 10, justifyContent: "flex-end" }}>
+                    <Icon
+                        name="human-handsup"
+                        type="material-community"
+                        size={13}
+                        color={Colors.black}
+                    />
+                    <Text style={{ ...Fonts.subtitle, marginLeft: 5 }}>
+                        {client.height} m
+                    </Text>
+                </View>
+                <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+                    <Icon
+                        name="weight"
+                        type="material-community"
+                        size={13}
+                        color={Colors.black}
+                    />
+                    <Text style={{ ...Fonts.subtitle, marginLeft: 5 }}>
+                        {client.weight} kg
+                    </Text>
+                </View>
+            </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        padding: 10,
+        paddingHorizontal: 10,
+        paddingTop: 5,
+        paddingBottom: 15,
         flexDirection: "row",
         borderBottomWidth: 1,
         borderBottomColor: Colors.black10
@@ -73,6 +108,7 @@ const styles = StyleSheet.create({
         flex: 0,
         width: 50,
         marginRight: 10,
+        marginTop: 10
     },
     image: {
         width: 50,
@@ -83,7 +119,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         flex: 1,
     },
-    dateContainer: {
+    personDetailsContainer: {
         flex: 0,
         width: 70
     }
